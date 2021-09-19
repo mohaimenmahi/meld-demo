@@ -55,7 +55,8 @@ export default function deviceReducer(state = initState, actions) {
       return {
         ...state,
         notifyLoading: false,
-        notifyErr: "Some error occured when sending notifications",
+        notifyErr:
+          "Some error occured when sending notifications. Please Try again Later",
         notifyMsg: null,
       };
 

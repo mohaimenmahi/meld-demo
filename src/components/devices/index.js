@@ -4,11 +4,16 @@ import { Button, Modal } from "react-bootstrap";
 import { connect } from "react-redux";
 import { logOut } from "../../redux/actions/home";
 import { completeNotify, getDevices } from "../../redux/actions/devices";
+import NotifyModal from "./notify-modal";
 
 const DeviceMain = (props) => {
-  let { logOut, devices, getDevices, notify } = props;
+  let { logOut, devices, getDevices, authToken } = props;
 
   let [openModal, setModal] = useState(false);
+
+  let handleModal = () => {
+    setModal(!openModal);
+  };
 
   let handleLogout = () => {
     logOut();
@@ -48,6 +53,11 @@ const DeviceMain = (props) => {
 
   return (
     <DeviceStyle>
+      <NotifyModal
+        show={openModal}
+        handleClose={handleModal}
+        token={authToken}
+      />
       <div className="container">
         <div id="parentdiv">
           <h1>{devices}</h1>
@@ -57,7 +67,7 @@ const DeviceMain = (props) => {
       </div>
       <div className="button-group">
         <div className="button-row">
-          <Button className="button" variant="light">
+          <Button className="button" variant="light" onClick={handleModal}>
             Notify
           </Button>
           <Button className="button" variant="dark" onClick={handleLogout}>

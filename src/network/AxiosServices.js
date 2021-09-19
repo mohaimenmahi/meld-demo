@@ -5,53 +5,27 @@ function getIRequestProp() {
   let serverUrl = BASE_URL;
   return {
     serverUrl: serverUrl,
-    requestHeader: {
-      "Content-Type": "application/json",
-    },
   };
 }
 
 async function get(url, parameter) {
-  let { serverUrl, requestHeader } = getIRequestProp();
+  let { serverUrl } = getIRequestProp();
   return axios.get(serverUrl + url, {
     params: parameter,
-    headers: requestHeader,
   });
 }
 
 async function post(url, body) {
-  let { serverUrl, requestHeader } = getIRequestProp();
+  let { serverUrl } = getIRequestProp();
   return await axios.post(serverUrl + url, body, {
-    headers: requestHeader,
-  });
-}
-
-async function put(url, body) {
-  let { serverUrl, requestHeader } = getIRequestProp();
-  return await axios.put(serverUrl + url, body, {
-    headers: requestHeader,
-  });
-}
-
-async function patch(url, body) {
-  let { serverUrl, requestHeader } = getIRequestProp();
-  return await axios.patch(serverUrl + url, body, {
-    headers: requestHeader,
-  });
-}
-
-async function remove(url, body) {
-  let { serverUrl, requestHeader } = getIRequestProp();
-  return await axios.delete(serverUrl + url, {
-    data: body,
-    headers: requestHeader,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${body.token}`,
+    },
   });
 }
 
 export const AxiosServices = {
   get,
   post,
-  put,
-  patch,
-  remove,
 };
