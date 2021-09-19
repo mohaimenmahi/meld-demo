@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Switch, useLocation, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import HomeIndex from "./components/home";
+import DeviceMain from "./components/devices";
+import "./App.css";
 
-function App() {
+function App(props) {
+  let { authToken } = props;
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Switch>
+        <Route exact path="/">
+          {authToken ? <Redirect to="/devices" /> : <HomeIndex />}
+        </Route>
+        <Route exact path="/devices">
+          {authToken ? <DeviceMain /> : <Redirect to="/" />}
+        </Route>
+      </Switch>
     </div>
   );
 }
 
-export default App;
+let mapStateToProps = (state) => {
+  return {
+    authToken: state.homeReducer.authToken,
+  };
+};
+
+export default connect(mapStateToProps)(App);
